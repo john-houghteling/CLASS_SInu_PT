@@ -2391,7 +2391,7 @@ int nonlinear_sigma_at_z(
 
   double * out_pk;
   double * ddout_pk;
-
+  
   /** - allocate temporary array for P(k,z) as a function of k */
 
   class_alloc(out_pk, pnl->k_size*sizeof(double), pnl->error_message);

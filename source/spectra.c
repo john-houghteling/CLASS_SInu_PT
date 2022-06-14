@@ -6889,6 +6889,7 @@ int spectra_sigma(
                   struct background * pba,
                   struct primordial * ppm,
                   struct spectra * psp,
+                  struct nonlinear * pnl,
                   double R,
                   double z,
                   double * sigma
@@ -6896,7 +6897,7 @@ int spectra_sigma(
 
   fprintf(stderr," -> [WARNING:] You are calling the function spectra_sigma() which is deprecated since v2.8. Try using nonlinear_sigmas_at_z() instead.\n");
 
-  if (psp->pnl->has_pk_m) {
+  if (pnl->has_pk_m) {
 
     class_call(nonlinear_sigma_at_z(pba,
                                     psp->pnl,
@@ -6932,6 +6933,7 @@ int spectra_sigma_cb(
                      struct background * pba,
                      struct primordial * ppm,
                      struct spectra * psp,
+                     struct nonlinear * pnl,
                      double R,
                      double z,
                      double * sigma_cb
@@ -6939,7 +6941,7 @@ int spectra_sigma_cb(
 
   fprintf(stderr," -> [WARNING:] You are calling the function spectra_sigma_cb() which is deprecated since v2.8. Try using nonlinear_sigmas_at_z() instead.\n");
 
-  if (psp->pnl->has_pk_cb) {
+  if (pnl->has_pk_cb) {
 
     class_call(nonlinear_sigma_at_z(pba,
                                     psp->pnl,
@@ -8031,8 +8033,8 @@ Old part -- end*/
   }
 
   /* compute sigma8 (mean variance today in sphere of radius 8/h Mpc */
-
-  class_call(spectra_sigma(pba,ppm,psp,8./pba->h,0.,&(psp->sigma8)),
+  printf("5/5\n");
+  class_call(spectra_sigma(pba,ppm,psp,pnl,8./pba->h,0.,&(psp->sigma8)),
              psp->error_message,
              psp->error_message);
 

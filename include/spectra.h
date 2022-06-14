@@ -961,6 +961,7 @@ extern "C" {
                     struct background * pba,
                     struct primordial * ppm,
                     struct spectra * psp,
+                    struct nonlinear * pnl,
                     double R,
                     double z,
                     double *sigma
@@ -999,6 +1000,7 @@ extern "C" {
                        struct background * pba,
                        struct primordial * ppm,
                        struct spectra * psp,
+                       struct nonlinear * pnl,
                        double R,
                        double z,
                        double *sigma_cb

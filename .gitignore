@@ -8,3 +8,5 @@ python/dist/*
 *.o
 *.so
 python/*.c
+Makefile
+python/classy.egg-info/SOURCES.txt
