@@ -7,8 +7,8 @@ ratio = True
 to_output = "../output/"
 
 # add all files to be considered here, may make argv later, if using ratio, 1st will be the norm
-filename = ["2m_LCDM_km5_pk.dat", "2c1m_2Geff0.6_km5_pk.dat", "2c1m_2Geff2_km5_pk.dat", "2c1m_1Geff2_km5_pk.dat", "1c2m_1Geff2_km5_pk.dat"]
-names = ["LCDM, 2 massive nu", "2 mless int nu, log10_G = -0.6, -2", "2 mless int nu, log10_G = -2, -3.4", "2 mless int nu, log10_G = -2", "1 mless int nu, log10_G = -2"]
+filename = ["mless_LCDM_PT_km100_pk.dat", "mless_LCDM_NONPT_km100_pk.dat"]
+names = ["LCDM, 2 massive nu, SInu_PT", "LCDM, 2 massive nu, SInu_PT, PT disabled"]
 dat = []
 
 # read files
@@ -56,9 +56,11 @@ print(len(pk_arr[0]))
 plt.title("$P_k$ ratio")
 plt.xlabel("k [h/Mpc]")
 plt.ylabel("$P_{k, i}/P_{k, LCDM}$")
+plt.xlim(0.001, 10.0)
 plt.xscale("log")
+plt.yscale("log")
 for i in range(0, len(k_arr)):
     plt.plot(k_arr[i][index_array[i]:], pk_arr[i][index_array[i]:], label = names[i])
 plt.legend()
-plt.savefig("plots/all_massive_wGeff2_km5.png")
+plt.savefig("plots/SInu-PT-PT_vs_nonPT.png")
 plt.show()
