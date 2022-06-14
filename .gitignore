@@ -1,0 +1,10 @@
+output/*
+build/*.o
+python/build/*
+*.a
+class
+source/.vscode/*
+python/dist/*
+*.o
+*.so
+python/*.c
