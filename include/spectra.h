@@ -807,6 +807,7 @@ extern "C" {
   int spectra_pk_at_z(
                       struct background * pba,
                       struct spectra * psp,
+                      struct nonlinear * pnl,
                       enum linear_or_logarithmic mode,
                       double z,
                       double * output_tot,
@@ -819,6 +820,7 @@ extern "C" {
                             struct background * pba,
                             struct primordial * ppm,
                             struct spectra * psp,
+                            struct nonlinear * pnl,
                             double k,
                             double z,
                             double * pk,
@@ -949,6 +951,7 @@ extern "C" {
   int spectra_fast_pk_at_kvec_and_zvec(
                                        struct background * pba,
                                        struct spectra * psp,
+                                       struct nonlinear * pnl,
                                        double * kvec,
                                        int kvec_size,
                                        double * zvec,

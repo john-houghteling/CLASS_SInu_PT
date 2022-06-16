@@ -2006,6 +2006,7 @@ int spectra_k_and_tau(
 int spectra_pk_at_z(
                     struct background * pba,
                     struct spectra * psp,
+                    struct nonlinear * pnl,
                     enum linear_or_logarithmic mode,
                     double z,
                     double * output_tot,    /* array with argument output_tot[index_k] (must be already allocated) */
@@ -2018,7 +2019,7 @@ int spectra_pk_at_z(
 
   class_call(nonlinear_pks_at_z(
                                 pba,
-                                psp->pnl,
+                                pnl,
                                 mode,
                                 pk_linear,
                                 z,
@@ -2027,7 +2028,7 @@ int spectra_pk_at_z(
                                 output_cb_tot,
                                 output_cb_ic
                                 ),
-             psp->pnl->error_message,
+             pnl->error_message,
              psp->error_message);
 
   return _SUCCESS_;
@@ -2055,6 +2056,7 @@ int spectra_pk_at_k_and_z(
                           struct background * pba,
                           struct primordial * ppm,
                           struct spectra * psp,
+                          struct nonlinear * pnl,
                           double k,
                           double z,
                           double * pk_tot,    /* pointer to a single number (must be already allocated) */
@@ -2068,13 +2070,13 @@ int spectra_pk_at_k_and_z(
 
   class_call(nonlinear_pks_at_k_and_z(pba,
                                       ppm,
-                                      psp->pnl,
+                                      pnl,
                                       pk_linear,
                                       k,
                                       z,
                                       pk_tot,
                                       pk_ic),
-             psp->pnl->error_message,
+             pnl->error_message,
              psp->error_message);
 
   return _SUCCESS_;
@@ -6835,7 +6837,8 @@ for (i_z=0; i_z<pnlpt->z_pk_num; i_z++) {
 int spectra_fast_pk_at_kvec_and_zvec(
                                      struct background * pba,
                                      struct spectra * psp,
-                                       double * kvec,
+                                     struct nonlinear * pnl,
+                                     double * kvec,
                                      int kvec_size,
                                      double * zvec,
                                      int zvec_size,
@@ -6856,7 +6859,7 @@ int spectra_fast_pk_at_kvec_and_zvec(
 
   class_call(nonlinear_pks_at_kvec_and_zvec(
                                             pba,
-                                            psp->pnl,
+                                            pnl,
                                             pk_output,
                                             kvec,
                                             kvec_size,
@@ -6864,7 +6867,7 @@ int spectra_fast_pk_at_kvec_and_zvec(
                                             zvec_size,
                                             pk_tot_out,
                                             pk_cb_tot_out),
-             psp->pnl->error_message,
+             pnl->error_message,
              psp->error_message);
 
   return _SUCCESS_;
@@ -6900,13 +6903,13 @@ int spectra_sigma(
   if (pnl->has_pk_m) {
 
     class_call(nonlinear_sigma_at_z(pba,
-                                    psp->pnl,
+                                    pnl,
                                     R,
                                     z,
-                                    psp->pnl->index_pk_m,
+                                    pnl->index_pk_m,
                                     80., // hardcoded, yes, but the function is deprecated...
                                     sigma),
-               psp->pnl->error_message,
+               pnl->error_message,
                psp->error_message);
 
   }
@@ -6944,13 +6947,13 @@ int spectra_sigma_cb(
   if (pnl->has_pk_cb) {
 
     class_call(nonlinear_sigma_at_z(pba,
-                                    psp->pnl,
+                                    pnl,
                                     R,
                                     z,
-                                    psp->pnl->index_pk_cb,
+                                    pnl->index_pk_cb,
                                     80., // hardcoded, yes, but the function is deprecated...
                                     sigma_cb),
-               psp->pnl->error_message,
+               pnl->error_message,
                psp->error_message);
   }
 

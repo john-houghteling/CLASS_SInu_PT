@@ -34,16 +34,16 @@ with open(os.path.join(include_folder, 'common.h'), 'r') as v_file:
             break
 
 # Define cython extension and fix Python version
-classy_ext = Extension("classy", [os.path.join(classy_folder, "classy.pyx")],
-                           include_dirs=[nm.get_include(), include_folder],
+classy_ext = Extension("classySInuPT", [os.path.join(classy_folder, "classy.pyx")],
+                           include_dirs=[nm.get_include(), include_folder,"/Users/francis-yan/opt/anaconda3/include"],
                            libraries=liblist,
                            library_dirs=[root_folder, GCCPATH],
-                           extra_link_args=['-lgomp'])
+                           extra_link_args=['/Users/francis-yan/opt/anaconda3/lib/libopenblas.dylib'])
 import six
 classy_ext.cython_directives = {'language_level': "3" if six.PY3 else "2"}
         
 setup(
-    name='classy',
+    name='classySInuPT',
     version=VERSION,
     description='Python interface to the Cosmological Boltzmann code CLASS',
     url='http://www.class-code.net',

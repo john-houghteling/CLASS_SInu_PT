@@ -380,6 +380,7 @@ cdef extern from "class.h":
     int spectra_pk_at_z(
         void * pba,
         void * psp,
+        void * pnl,
         int mode,
         double z,
         double * output_tot,
@@ -392,6 +393,7 @@ cdef extern from "class.h":
         void* pba,
         void * ppm,
         void * psp,
+        void * pnl,
         double k,
         double z,
         double * pk,

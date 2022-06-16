@@ -682,7 +682,7 @@ int input_read_parameters(
                                   pop),
              errmsg,
              errmsg);
-
+  printf("here it is: %d\n",ppr->l_max_idr);
   /** - if entries passed in file_content structure, carefully read
       and interpret each of them, and tune the relevant input
       parameters accordingly*/
@@ -1161,7 +1161,7 @@ int input_read_parameters(
                  errmsg,
                  errmsg);
     }
-    printf("l_max_idr: %d",ppr->l_max_idr);
+    printf("l_max_idr: %d\n",ppr->l_max_idr);
     if(flag1 == _TRUE_){
       if(entries_read != (ppr->l_max_idr-1)){
         class_realloc(ppt->beta_idr,ppt->beta_idr,(ppr->l_max_idr-1)*sizeof(double),errmsg);
