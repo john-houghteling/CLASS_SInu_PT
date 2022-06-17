@@ -82,7 +82,7 @@ int perturb_get_k_list_nl(
         if (ppt->has_nl_corrections_based_on_delta_m == _TRUE_)
             k_max = MAX(k_max, ppr->halofit_min_k_max);
 
-        // printf("k_max=%le\n",k_max);
+         printf("k_max=%le\n",k_max);
 
         /** - --> test that result for k_min, k_max make sense */
 
@@ -266,7 +266,7 @@ int perturb_get_k_list_nl(
         //}
     }
 
-    /* For testing, can be useful to print the k list in a file:
+    //For testing, can be useful to print the k list in a file:
 
   FILE * out=fopen("output/k","w");
 
@@ -276,7 +276,7 @@ int perturb_get_k_list_nl(
 
   }
      fclose(out);
-  */
+  
 
     /** - finally, find the global k_min and k_max for the ensemble of all modes scalars, vectors, tensors) */
 
@@ -481,7 +481,7 @@ int nonlinear_pt_init(
 
         if (ppt->has_cls == _TRUE_ && pnlpt->fast_output == _TRUE_)
         {
-
+                
             class_call(perturb_get_k_list_nl(ppr,
                                              pba,
                                              pth,
@@ -690,7 +690,7 @@ int nonlinear_pt_init(
         int i_z = 0;
         for (i_z = 0; i_z < pnlpt->z_pk_num; i_z++)
         {
-            //                        printf("redshift requested %lf\n", pnlpt->z_pk[i]);
+                                    //printf("redshift requested %lf\n", pnlpt->z_pk[i]);
             class_call(background_tau_of_z(pba, pnlpt->z_pk[i_z], &tau_req[i_z]),
                        pba->error_message,
                        pnlpt->error_message);
@@ -799,6 +799,7 @@ int nonlinear_pt_init(
             SWITCH_index = 1;
             
         }
+
         
         //printf("%d\n",SWITCH_index); //GC - SWITCH!
 
@@ -2897,7 +2898,7 @@ int nonlinear_pt_init(
                         {
                             pnlpt->sources_tp_delta_cb[index_tau * pnlpt->k_size + index_k] = pnlpt->sources_tp_delta_cb[index_tau * pnlpt->k_size + index_k - 1];
                         }
-                        // printf(" pnlpt->sources_tp_delta_b[index_tau*pnlpt->k_size+index_k] = %le\n", pnlpt->sources_tp_delta_b[index_tau*pnlpt->k_size+index_k]);
+                         //printf(" pnlpt->sources_tp_delta_b[index_tau*pnlpt->k_size+index_k] = %le\n", pnlpt->sources_tp_delta_b[index_tau*pnlpt->k_size+index_k]);
                     }
                 }
             }

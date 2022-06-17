@@ -1,5 +1,5 @@
 """
-.. module:: classySInuPT
+.. module:: classy
     :synopsis: Python wrapper around CLASS
 .. moduleauthor:: Karim Benabed <benabed@iap.fr>
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
