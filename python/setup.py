@@ -35,7 +35,7 @@ with open(os.path.join(include_folder, 'common.h'), 'r') as v_file:
 
 # Define cython extension and fix Python version
 classy_ext = Extension("classySInuPT", [os.path.join(classy_folder, "classySInuPT.pyx")],
-                           include_dirs=[nm.get_include(), include_folder,"/home/john/anaconda3/envs/SInu/lib"],
+                           include_dirs=[nm.get_include(), include_folder,"/home/john/anaconda3/envs/SInu/include"],
                            libraries=liblist,
                            library_dirs=[root_folder, GCCPATH],
                            extra_link_args=['/home/john/anaconda3/envs/SInu/lib/libopenblas.so','-lgomp'])

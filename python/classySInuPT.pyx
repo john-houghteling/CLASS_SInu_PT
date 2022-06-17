@@ -435,7 +435,7 @@ cdef class Class:
 
         if "spectra" in level:
             if spectra_init(&(self.pr), &(self.ba), &(self.pt),
-                            &(self.pm), &(self.nlpt),  &(self.nl), &(self.tr),
+                            &(self.pm), &(self.nl), &(self.nlpt), &(self.tr),
                             &(self.sp)) == _FAILURE_:
                 self.struct_cleanup()
                 raise CosmoComputationError(self.sp.error_message)

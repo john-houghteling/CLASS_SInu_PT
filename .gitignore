@@ -1,0 +1,14 @@
+output/*
+build/*.o
+python/build/*
+*.a
+class
+source/.vscode/*
+python/dist/*
+*.o
+*.so
+python/*.c
+Makefile
+python/classy.egg-info/SOURCES.txt
+*.swp
+*egg*
