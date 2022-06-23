@@ -2326,7 +2326,6 @@ int spectra_pk_nl_bias_at_z_i(
     /** Summary: */
     
 
-    printf("spectra_bias fx called\n");
     /** - define local variables */
     
     int last_index;
