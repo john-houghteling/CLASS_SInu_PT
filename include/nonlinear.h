@@ -281,9 +281,9 @@ extern "C" {
                                double k,
                                double z,
                                double * out_pk,
-                               double * out_pk_ic/*,
+                               double * out_pk_ic,
                                double * out_pk_cb,
-                               double * out_pk_cb_ic*/
+                               double * out_pk_cb_ic
                                );
 
   int nonlinear_pks_at_kvec_and_zvec(

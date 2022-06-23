@@ -624,9 +624,9 @@ int nonlinear_pks_at_k_and_z(
                              double k,
                              double z,
                              double * out_pk, // number P_m(k)
-                             double * out_pk_ic // array P_m_ic(k) of index [index_ic1_ic2]
-                             /*double * out_pk_cb, // number P_cb(k)
-                             double * out_pk_cb_ic*/ // array P__cb_ic(k)of index [index_ic1_ic2]
+                             double * out_pk_ic, // array P_m_ic(k) of index [index_ic1_ic2]
+                             double * out_pk_cb, // number P_cb(k)
+                             double * out_pk_cb_ic // array P__cb_ic(k)of index [index_ic1_ic2]
                              ) {
 
   if (pnl->has_pk_m) {
@@ -1292,7 +1292,6 @@ int nonlinear_init(
   /** - get the non-linear power spectrum at each time */
 
   /** --> First deal with the case where non non-linear corrections requested */
-
   if (pnl->method == nl_none) {
     if (pnl->nonlinear_verbose > 0)
       printf("No HALOFIT power spectra requested. HALOFIT module skipped.\n");
@@ -1453,7 +1452,7 @@ int nonlinear_init(
                        pnl->error_message,
                        pnl->error_message);
           }
-
+          printf("WTF IS THIS RUNNING\n");
           /* infer and store R_NL=(P_NL/P_L)^1/2 */
           if (nl_corr_not_computable_at_this_k == _FALSE_) {
             for (index_k=0; index_k<pnl->k_size; index_k++) {

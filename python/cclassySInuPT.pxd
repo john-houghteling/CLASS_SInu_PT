@@ -398,8 +398,16 @@ cdef extern from "class.h":
         double z,
         double * pk,
         double * pk_ic,
-#        double * pk_cb,
-#        double * pk_cb_ic
+        double * pk_cb,
+        double * pk_cb_ic
+        )
+
+    int spectra_indices(
+        void * pba,
+        void * ppt,
+        void * ptr,
+        void * ppm,
+        void * psp
         )
 
     int spectra_pk_nl_at_k_and_z(

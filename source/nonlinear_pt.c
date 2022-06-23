@@ -1067,6 +1067,8 @@ int nonlinear_pt_init(
 
         FILE *myFile22;
 
+        printf(file2openM22);
+
         myFile22 = fopen(file2openM22, "r");
 
         if (myFile22 == NULL)
@@ -6076,6 +6078,7 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
         f13[index_j] = zdotu_(&Nmaxf, x, &inc, pnlpt->M13_oneline_complex, &inc);
         P13UV[index_j] = -61. * Pbin[index_j] * pow(kdisc[index_j], 2.) * sigmav / 105.;
         P13[index_j] = (creal(cpow(kdisc[index_j], 3.) * f13[index_j] * Pbin[index_j]) + P13UV[index_j]) * exp(-pow(kdisc[index_j] / cutoff, 6.));
+        double breakbreakbreak;
     }
     index_j = 0;
     count = 0;
@@ -6259,10 +6262,9 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
 
     for (index_k = 0; index_k < pnlpt->k_size; index_k++)
     {
-
+        //printf("2; k, kmax: %f, %f\n", pnlpt->k[index_k], kmin);
         if (pnlpt->k[index_k] >= kmin && pnlpt->k[index_k] <= kmax)
         {
-
             class_call(array_interpolate_spline(kdisc,
                                                 Nmax,
                                                 P1loop,
@@ -6275,6 +6277,7 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
                                                 pnlpt->error_message),
                        pnlpt->error_message,
                        pnlpt->error_message);
+            printf("pk_n_out: %f\n", pk_nl_out);
 
             class_call(array_interpolate_spline(kdisc,
                                                 Nmax,
@@ -6354,11 +6357,13 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
 	    if(pk_Tree_out<=0) pk_Tree_out=1e-16;
             pk_CTR[index_k] = pk_CTR_out;
             pk_Tree[index_k] = pk_Tree_out;
+            //printf("k in bounds: pk_CTR, pk_Tree: %f, %f\n", pk_CTR[index_k], pk_Tree[index_k]);
         }
 
         else
         {
             //pk_nl[index_k] = exp(lnpk_l[index_k]);
+            //printf("k, kmax: %f, %f\n", pnlpt->k[index_k], kmin);
             if (pnlpt->k[index_k] < kmin)
             {
                 pk_nl[index_k] = large_for_logs_matter - 61. * exp(lnpk_l[index_k] + 2. * lnk_l[index_k]) * sigmav / 105.;
@@ -6385,6 +6390,7 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
             }
             pk_CTR[index_k] = exp(lnpk_l[index_k] + 2. * lnk_l[index_k]);
             pk_Tree[index_k] = exp(lnpk_l[index_k]);
+            //printf("k out of bounds: pk_CTR, pk_Tree: %f, %f\n", pk_CTR[index_k], pk_Tree[index_k]);
         }
         //  printf("%i %f %f\n",index_k, pk_Tree[index_k],pk_nl[index_k]-5000.);
         //printf("%.16f %.16f\n",pnlpt->k[index_k],pk_nl_fNL[index_k]-0.*large_for_logs_fNL); //GC!

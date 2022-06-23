@@ -824,9 +824,9 @@ extern "C" {
                             double k,
                             double z,
                             double * pk,
-                            double * pk_ic/*,
+                            double * pk_ic,
                             double * pk_cb,
-                            double * pk_cb_ic*/
+                            double * pk_cb_ic
                             );
 
     int spectra_pk_nl_at_z(

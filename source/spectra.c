@@ -2060,10 +2060,10 @@ int spectra_pk_at_k_and_z(
                           double k,
                           double z,
                           double * pk_tot,    /* pointer to a single number (must be already allocated) */
-                          double * pk_ic     /* array of argument pk_ic[index_ic1_ic2]
+                          double * pk_ic,      /* array of argument pk_ic[index_ic1_ic2]
                                                  (must be already allocated only if several initial conditions) */
-                          /*double * pk_cb_tot,  same as pk_tot for baryon+CDM part only */
-                          /*double * pk_cb_ic    same as pk_ic  for baryon+CDM part only */
+                          double * pk_cb_tot, /* same as pk_tot for baryon+CDM part only */
+                          double * pk_cb_ic   /* same as pk_ic  for baryon+CDM part only */
                           ) {
 
   fprintf(stderr," -> [WARNING:] You are calling the function spectra_pk_at_k_and_z() which is deprecated since v2.8. Try using nonlinear_pk_linear_at_k_and_z() instead.\n");
@@ -2075,7 +2075,9 @@ int spectra_pk_at_k_and_z(
                                       k,
                                       z,
                                       pk_tot,
-                                      pk_ic),
+                                      pk_ic,
+                                      pk_cb_tot,
+                                      pk_cb_ic),
              pnl->error_message,
              psp->error_message);
 
@@ -2208,6 +2210,7 @@ int spectra_pk_nl_at_z(
   return _SUCCESS_;
 
 }
+
 int spectra_pk_nl_bias_at_z_i(
                        struct background * pba,
                        struct nonlinear_pt *pnlpt,
@@ -2322,6 +2325,8 @@ int spectra_pk_nl_bias_at_z_i(
     
     /** Summary: */
     
+
+    printf("spectra_bias fx called\n");
     /** - define local variables */
     
     int last_index;
@@ -2781,11 +2786,17 @@ int spectra_pk_nl_at_k_and_z(
 
   /** Summary: */
 
+
+  //added to test stuff -JH
+  /*class_call(spectra_indices(pba,ppt,ptr,ppm,psp),
+             psp->error_message,
+             psp->error_message);*/
+
   /** - define local variables */
     
 
-  int index_md;
-  int last_index;
+    int index_md; 
+    int last_index;
     int last_index2;
     int last_index3;
     int last_index4;
@@ -3114,6 +3125,7 @@ int spectra_pk_nl_at_k_and_z(
   class_test((k < exp(pnlpt->ln_k[0])) || (k > exp(pnlpt->ln_k[pnlpt->ln_k_size-1])),
              psp->error_message,
              "k=%e out of bounds [%e:%e]",k,0.,exp(pnlpt->ln_k[pnlpt->ln_k_size-1]));
+
 
   /** - compute P(k,z) (in logarithmic format for more accurate interpolation) */
   class_alloc(spectrum_at_z,
@@ -3669,6 +3681,10 @@ for (i_z=0; i_z<pnlpt->z_pk_num; i_z++) {
     
 
   /** - get its second derivatives with spline, then interpolate, then convert to linear format */
+  // ISSUE ISSUE ISSUE
+  //lets just try this -JH
+  // this was not a fix, it changed the value of 1loop
+  //psp->ic_ic_size[index_md] = pnl->ic_ic_size;
 
   class_alloc(spline,
               sizeof(double)*psp->ic_ic_size[index_md]*pnlpt->ln_k_size,
@@ -4454,8 +4470,9 @@ for (i_z=0; i_z<pnlpt->z_pk_num; i_z++) {
                psp->error_message,
                psp->error_message);
     
-    
     *pk_tot_CTR = exp(*pk_tot_CTR);
+
+    //printf("k, pk_tot_CTR after array_interpolate_spline: %f, %f\n", k, *pk_tot_CTR);
     
     free(spectrum_CTR_at_z);
     free(spline_CTR);
@@ -7990,17 +8007,18 @@ int spectra_pk(
                }
 
 Old part -- end*/
-
-        // issues with using a pointer in log, so extracted calue into temp variable
-        double nl_corr_density_temp;
-        nl_corr_density_temp = *pnl->nl_corr_density[(index_tau-psp->ln_tau_size+ppt->tau_size) * ppt->k_size[index_md] + index_k];
+        // fixing type error for log, how did they not have this?? -JH
+        // I think this is only for nl as it is not really used in PT, so Im commenting it out for
+        // now unless I see its causing more issues later
+        /*double pnl_nl_corr_density_temp = *pnl->nl_corr_density[(index_tau-psp->ln_tau_size+ppt->tau_size) * ppt->k_size[index_md] + index_k];
         if ((pnlpt->method == nlpt_none) && (pnl->method != nl_none) && (index_tau >= delta_index_nl)) {
             
             psp->ln_pk_nl[(index_tau-delta_index_nl) * psp->ln_k_size + index_k] =
-            ln_pk_tot
-            + 2.*log(nl_corr_density_temp);
+              ln_pk_tot + 2.*log(pnl_nl_corr_density_temp);
             
-        }
+        }*/
+        
+        
     }
   }
 
@@ -8036,7 +8054,7 @@ Old part -- end*/
   }
 
   /* compute sigma8 (mean variance today in sphere of radius 8/h Mpc */
-  printf("5/5\n");
+
   class_call(spectra_sigma(pba,ppm,psp,pnl,8./pba->h,0.,&(psp->sigma8)),
              psp->error_message,
              psp->error_message);
@@ -8048,7 +8066,6 @@ Old part -- end*/
 
   /**- if interpolation of \f$ P_{NL}(k,\tau)\f$ will be needed (as a function of tau),
      compute array of second derivatives in view of spline interpolation */
-    
   if (pnlpt->method != nlpt_none && pnl->method == nl_none) {
     if (psp->ln_tau_nl_size > 1) {
 

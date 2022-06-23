@@ -919,8 +919,11 @@ cdef class Class:
 
         cdef double factor_fNL = sqrt(self.pm.A_s) * (1944./625.) * (pi**4.) #GC: multiplied already by sqrt(As) * (1944/625*pi^4), so the user only needs to multiply by fNL...
 
+        
+        spectra_indices(&self.ba,&self.pt,&self.tr,&self.pm,&self.sp)
         # Quantities for the isocurvature modes
         cdef double *pk_ic = <double*> calloc(self.sp.ic_ic_size[self.sp.index_md_scalars], sizeof(double))
+        #cdef double *pk_ic = <double*> calloc(self.nl.ic_ic_size, sizeof(double))
         if (self.pt.has_pk_matter == _FALSE_):
             raise CosmoSevereError(
                 "No power spectrum computed. You must add mPk to the list of outputs."
@@ -928,13 +931,18 @@ cdef class Class:
 
         self.recompute_nonlinear_pt(no_wiggle=no_wiggle, alpha_rs=alpha_rs)
         
-# ISSUE ISSUE ISSUE ISSUE -JH
 
+        #added to test if runs and keeps values
+        #spectra_indices(&self.ba,&self.pt,&self.tr,&self.pm,&self.sp)
+# ISSUE ISSUE ISSUE ISSUE -JH
+        cdef double pk_cb
+        cdef double pk_cb_ic
+        pk_cb, pk_cb_ic = self.pk_cb_and_cb_ic(k,z)
         if (self.nlpt.method == 0):
-             if spectra_pk_at_k_and_z(&self.ba,&self.pm,&self.sp,&self.nl,k,z,&pk,pk_ic)==_FAILURE_:
+            if spectra_pk_at_k_and_z(&self.ba,&self.pm,&self.sp,&self.nl,k,z,&pk,pk_ic,&pk_cb,&pk_cb_ic)==_FAILURE_:
                 raise CosmoSevereError(self.sp.error_message)
         else:
-             if spectra_pk_nl_at_k_and_z(&self.ba,&self.pm,&self.sp,&self.nl,&self.nlpt,k,z,&pk,&pk_Id2d2,&pk_Id2,&pk_IG2,&pk_Id2G2,&pk_IG2G2,&pk_IFG2,&pk_IFG2_0b1,&pk_IFG2_0,&pk_IFG2_2,&pk_CTR,&pk_CTR_0,&pk_CTR_2,&pk_CTR_4,&pk_Tree,&pk_Tree_0_vv,&pk_Tree_0_vd,&pk_Tree_0_dd,&pk_Tree_2_vv,&pk_Tree_2_vd,&pk_Tree_4_vv,&pk_0_vv,&pk_0_vd,&pk_0_dd,&pk_2_vv,&pk_2_vd,&pk_2_dd,&pk_4_vv,&pk_4_vd,&pk_4_dd,&pk_0_b1b2,&pk_0_b2,&pk_0_b1bG2,&pk_0_bG2,&pk_2_b1b2,&pk_2_b2,&pk_2_b1bG2,&pk_2_bG2,&pk_4_b2,&pk_4_bG2,&pk_4_b1b2,&pk_4_b1bG2,&pk_2_b2b2,&pk_2_b2bG2,&pk_2_bG2bG2,&pk_4_b2b2,&pk_4_b2bG2,&pk_4_bG2bG2,&pk_nl_fNL,&pk_fNLd2,&pk_fNLG2,&pk_fNL_0_vv,&pk_fNL_0_vd,&pk_fNL_0_dd,&pk_fNL_2_vv,&pk_fNL_2_vd,&pk_fNL_2_dd,&pk_fNL_4_vv,&pk_fNL_4_vd,&pk_fNL_4_dd,&pk12_0_b1b2,&pk12_0_b2,&pk12_0_b1bG2,&pk12_0_bG2,&pk12_2_b1b2,&pk12_2_b2,&pk12_2_b1bG2,&pk12_2_bG2,&pk12_4_b1b2,&pk12_4_b2,&pk12_4_b1bG2,&pk12_4_bG2,&pk_nl_fNL_ortho,&pk_fNLd2_ortho,&pk_fNLG2_ortho,&pk_fNL_0_vv_ortho,&pk_fNL_0_vd_ortho,&pk_fNL_0_dd_ortho,&pk_fNL_2_vv_ortho,&pk_fNL_2_vd_ortho,&pk_fNL_2_dd_ortho,&pk_fNL_4_vv_ortho,&pk_fNL_4_vd_ortho,&pk_fNL_4_dd_ortho,&pk12_0_b1b2_ortho,&pk12_0_b2_ortho,&pk12_0_b1bG2_ortho,&pk12_0_bG2_ortho,&pk12_2_b1b2_ortho,&pk12_2_b2_ortho,&pk12_2_b1bG2_ortho,&pk12_2_bG2_ortho,&pk12_4_b1b2_ortho,&pk12_4_b2_ortho,&pk12_4_b1bG2_ortho,&pk12_4_bG2_ortho) ==_FAILURE_:
+            if spectra_pk_nl_at_k_and_z(&self.ba,&self.pm,&self.sp,&self.nl,&self.nlpt,k,z,&pk,&pk_Id2d2,&pk_Id2,&pk_IG2,&pk_Id2G2,&pk_IG2G2,&pk_IFG2,&pk_IFG2_0b1,&pk_IFG2_0,&pk_IFG2_2,&pk_CTR,&pk_CTR_0,&pk_CTR_2,&pk_CTR_4,&pk_Tree,&pk_Tree_0_vv,&pk_Tree_0_vd,&pk_Tree_0_dd,&pk_Tree_2_vv,&pk_Tree_2_vd,&pk_Tree_4_vv,&pk_0_vv,&pk_0_vd,&pk_0_dd,&pk_2_vv,&pk_2_vd,&pk_2_dd,&pk_4_vv,&pk_4_vd,&pk_4_dd,&pk_0_b1b2,&pk_0_b2,&pk_0_b1bG2,&pk_0_bG2,&pk_2_b1b2,&pk_2_b2,&pk_2_b1bG2,&pk_2_bG2,&pk_4_b2,&pk_4_bG2,&pk_4_b1b2,&pk_4_b1bG2,&pk_2_b2b2,&pk_2_b2bG2,&pk_2_bG2bG2,&pk_4_b2b2,&pk_4_b2bG2,&pk_4_bG2bG2,&pk_nl_fNL,&pk_fNLd2,&pk_fNLG2,&pk_fNL_0_vv,&pk_fNL_0_vd,&pk_fNL_0_dd,&pk_fNL_2_vv,&pk_fNL_2_vd,&pk_fNL_2_dd,&pk_fNL_4_vv,&pk_fNL_4_vd,&pk_fNL_4_dd,&pk12_0_b1b2,&pk12_0_b2,&pk12_0_b1bG2,&pk12_0_bG2,&pk12_2_b1b2,&pk12_2_b2,&pk12_2_b1bG2,&pk12_2_bG2,&pk12_4_b1b2,&pk12_4_b2,&pk12_4_b1bG2,&pk12_4_bG2,&pk_nl_fNL_ortho,&pk_fNLd2_ortho,&pk_fNLG2_ortho,&pk_fNL_0_vv_ortho,&pk_fNL_0_vd_ortho,&pk_fNL_0_dd_ortho,&pk_fNL_2_vv_ortho,&pk_fNL_2_vd_ortho,&pk_fNL_2_dd_ortho,&pk_fNL_4_vv_ortho,&pk_fNL_4_vd_ortho,&pk_fNL_4_dd_ortho,&pk12_0_b1b2_ortho,&pk12_0_b2_ortho,&pk12_0_b1bG2_ortho,&pk12_0_bG2_ortho,&pk12_2_b1b2_ortho,&pk12_2_b2_ortho,&pk12_2_b1bG2_ortho,&pk12_2_bG2_ortho,&pk12_4_b1b2_ortho,&pk12_4_b2_ortho,&pk12_4_b1bG2_ortho,&pk12_4_bG2_ortho) ==_FAILURE_:
                 raise CosmoSevereError(self.sp.error_message)
         result = [pk-large_for_logs_matter]
         result.append(-pk_Id2d2+large_for_logs_big)
@@ -1070,6 +1078,26 @@ cdef class Class:
                 raise CosmoSevereError(self.nl.error_message)
 
         return pk_cb
+
+    # Gives the cdm+b pk for a given (k,z)
+    def pk_cb_and_cb_ic(self,double k,double z):
+
+        cdef double pk_cb
+        cdef double pk_cb_ic
+
+        if (self.pt.has_pk_matter == _FALSE_):
+            raise CosmoSevereError("No power spectrum computed. You must add mPk to the list of outputs.")
+        if (self.nl.has_pk_cb == _FALSE_):
+            raise CosmoSevereError("P_cb not computed (probably because there are no massive neutrinos) so you cannot ask for it")
+
+        if (self.nl.method == nl_none):
+            if nonlinear_pk_at_k_and_z(&self.ba,&self.pm,&self.nl,pk_linear,k,z,self.nl.index_pk_cb,&pk_cb,&pk_cb_ic)==_FAILURE_:
+                raise CosmoSevereError(self.nl.error_message)
+        else:
+            if nonlinear_pk_at_k_and_z(&self.ba,&self.pm,&self.nl,pk_nonlinear,k,z,self.nl.index_pk_cb,&pk_cb,&pk_cb_ic)==_FAILURE_:
+                raise CosmoSevereError(self.nl.error_message)
+
+        return pk_cb, pk_cb_ic
 
     # Gives the total matter pk for a given (k,z)
     def pk_lin(self,double k,double z):

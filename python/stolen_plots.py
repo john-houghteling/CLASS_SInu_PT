@@ -50,12 +50,12 @@ common_settings = {# fixed LambdaCDM parameters
                    'omega_cdm':0.12,
                    'h':0.6736,
                    'YHe':0.2425,
-#                     'N_eff':3.046,
-                    'N_ur':2.0328,
-                    'N_ncdm':1,
-                    'm_ncdm':0.06,
+#                  'N_eff':3.046,
+                   'N_ur':2.0328,
+                   'N_ncdm':1,
+                   'm_ncdm':0.06,
                    # other output and precision parameters
-#                    'P_k_max_1/Mpc':100.0,
+#                  'P_k_max_1/Mpc':100.0,
                    'z_pk':z_pk}  
 
 M = Class()
@@ -188,5 +188,5 @@ ax_Pk.set_ylim([1,5e4])
 ax_Pk.set_xlabel(r'$k \,\,\,\, [h\mathrm{Mpc}^{-1}]$')
 ax_Pk.set_ylabel(r'$P(k)\,\,\,\, [h^{-1}\mathrm{Mpc}]^3$')
 ax_Pk.legend(fontsize='16',ncol=1,loc='upper left')
-fig_Pk.savefig('from_notebookcode_real_Pk.pdf')
+fig_Pk.savefig('from_notebookcode_real_Pk.png')
 fig_Pk.tight_layout()
