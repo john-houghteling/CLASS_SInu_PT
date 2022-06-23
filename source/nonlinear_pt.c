@@ -6277,7 +6277,6 @@ class_alloc(pk_12,pnlpt->k_size * sizeof(double),pnlpt->error_message);*/
                                                 pnlpt->error_message),
                        pnlpt->error_message,
                        pnlpt->error_message);
-            printf("pk_n_out: %f\n", pk_nl_out);
 
             class_call(array_interpolate_spline(kdisc,
                                                 Nmax,
