@@ -6412,6 +6412,7 @@ int perturb_einstein(
 
     if (ppt->has_source_delta_cb == _TRUE_) {
       ppw->delta_cb += 3. *ppw->pvecback[pba->index_bg_a]*ppw->pvecback[pba->index_bg_H] * ppw->theta_cb/k2;//check gauge transformation
+      //printf("%f, %f\n", tau, ppw->theta_cb);
     }
 
     if (ppt->has_source_theta_m == _TRUE_) {
@@ -6736,8 +6737,9 @@ int perturb_total_stress_energy(
     }
 
     /* infer delta_cb abd theta_cb (perturbations from CDM and baryons) before adding ncdm */
-    if ((ppt->has_source_delta_m == _TRUE_) && (ppt->has_source_delta_cb == _TRUE_))
+    if ((ppt->has_source_delta_m == _TRUE_) && (ppt->has_source_delta_cb == _TRUE_)){
       ppw->delta_cb = delta_rho_m/rho_m;
+    }
 
     if (((ppt->has_source_delta_m == _TRUE_) || (ppt->has_source_theta_m == _TRUE_)) &&
         ((ppt->has_source_delta_cb == _TRUE_) || (ppt->has_source_theta_cb == _TRUE_)))

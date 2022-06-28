@@ -1067,7 +1067,7 @@ int nonlinear_pt_init(
 
         FILE *myFile22;
 
-        printf(file2openM22);
+        //printf(file2openM22);
 
         myFile22 = fopen(file2openM22, "r");
 
