@@ -12,3 +12,4 @@ Makefile
 python/classy.egg-info/SOURCES.txt
 *.swp
 *egg*
+*.png

@@ -16,7 +16,7 @@ from scipy import special
 from scipy.special import factorial
 import math
 
-'''
+z_pk = 0.61
 common_settings = { 
                     'H0': 67.32,
                     'T_cmb': 2.7255,
@@ -26,16 +26,32 @@ common_settings = {
                     'omega_cdm': 0.12011,
                     'tau_reio': 0.0543,
                     'l_max_scalars': 2500,
-                    'N_ncdm': 0,
-                    'N_ur': 3.046,
+                    'N_idr':1,
+                    'xi_idr':0.716489304871,
+                    'stat_f_idr':0.875,
+                    'log10_G_eff_1':-2.0,
+                    'N_ncdm': 2,
+                    'm_ncdm':'0.01, 0.05',
+                    'T_ncdm':'0.71611, 0.71611',
+                    'N_ur': 0,
+                    'P_k_ini type': 'analytic_Pk',
+                    'k_pivot': 0.05,
                     'ln10^{10}A_s': 3.0448,
                     'n_s': 0.96605,
-                    'alpha_s': 0
+                    'alpha_s': 0,
+                    'reio_parametrization':'reio_camb',
+                    'tau_reio': 0.0543,
+                    'non linear': 'PT',
+                    'gauge': 'newtonian',
+                    'l_max_scalars': 2500,
+                    'ic': 'ad',
+                    'recombination': 'RECFAST',
+                    'z_pk': z_pk
                     }
 
 M = Class()
 M.set(common_settings)
-M.set({ 'output': 'mPk',
+M.set({ 'output': 'mPk, tCl, pCl',
         'cb': 'Yes'
         })
 M.compute()
@@ -68,8 +84,10 @@ M.set({ 'output':'mPk',
        ,'cb':'Yes'
       })
 M.compute()
+'''
 #now we compute all the spectra including IR resummation, RSD, 
 #and AP generated for a fiducial cosmology with $\Omega_m=0.31$ 
+'''
 M1 = Class()
 M1.set(common_settings)
 M1.set({'output':'mPk',
@@ -82,6 +100,7 @@ M1.set({'output':'mPk',
         'Omfid':'0.31'
        })
 M1.compute()
+'''
 
 font = {'size'   : 20, 'family':'STIXGeneral'}
 axislabelfontsize='large'
@@ -127,7 +146,7 @@ b4 = 100. # in units [Mpc/h]^4
 
 ## Initialize the convenience functions pk_mm_real, pk_gg_l0 etc.
 M.initialize_output(khvec, z_pk, len(khvec))
-M1.initialize_output(khvec, z_pk, len(khvec))
+#M1.initialize_output(khvec, z_pk, len(khvec))
 
 ## COMPUTE SPECTRA #######
 # NB: these are fast, since no quantities are recomputed
@@ -136,7 +155,7 @@ M1.initialize_output(khvec, z_pk, len(khvec))
 pk_full = M.pk_mm_real(cs)
 
 # real space matter power spectrum
-pk_full_ir = M1.pk_mm_real(cs)
+#pk_full_ir = M1.pk_mm_real(cs)
 
 # real space galaxy-galaxy power spectrum 
 #pk_gg = M1.pk_gg_real(b1, b2, bG2, bGamma3, cs, cs0, Pshot)
@@ -161,7 +180,7 @@ pk_full_ir = M1.pk_mm_real(cs)
 #pk_lin = np.asarray([M1.pk_lin(kh,z_pk)*h**3. for kh in khvec])
 
 # load all non-linear components
-M1_mult = M1.get_pk_mult(khvec, z_pk, len(khvec))
+#M1_mult = M1.get_pk_mult(khvec, z_pk, len(khvec))
 M_mult = M.get_pk_mult(khvec, z_pk, len(khvec))
 
 # separate contributions of the matter-matter power spectrum
@@ -188,5 +207,5 @@ ax_Pk.set_ylim([1,5e4])
 ax_Pk.set_xlabel(r'$k \,\,\,\, [h\mathrm{Mpc}^{-1}]$')
 ax_Pk.set_ylabel(r'$P(k)\,\,\,\, [h^{-1}\mathrm{Mpc}]^3$')
 ax_Pk.legend(fontsize='16',ncol=1,loc='upper left')
-fig_Pk.savefig('from_notebookcode_real_Pk.png')
+fig_Pk.savefig('python_out_1c2m_G2.png')
 fig_Pk.tight_layout()
