@@ -881,12 +881,14 @@ int input_read_parameters(
             errmsg);
 
   if (flag1 == _TRUE_) {
-        if ((strstr(string1,"free_streaming") != NULL) || (strstr(string1,"Free_Streaming") != NULL) || (strstr(string1,"Free_streaming") != NULL) || (strstr(string1,"FREE_STREAMING") != NULL)) {
+        printf("You passed idr_nature. This has no effect as idr_nature is calculated in perturbations.c if it is needed.\n");
+        // idr_nature now decided in perturbation -JH
+        /*if ((strstr(string1,"free_streaming") != NULL) || (strstr(string1,"Free_Streaming") != NULL) || (strstr(string1,"Free_streaming") != NULL) || (strstr(string1,"FREE_STREAMING") != NULL)) {
           ppt->idr_nature = idr_free_streaming;
         }
         if ((strstr(string1,"fluid") != NULL) || (strstr(string1,"Fluid") != NULL) || (strstr(string1,"FLUID") != NULL)) {
           ppt->idr_nature = idr_fluid;
-        }
+        }*/
   }
 
 
@@ -1101,10 +1103,12 @@ int input_read_parameters(
                 errmsg);
        
           if (flag1 == _TRUE_){
-             pth->b_idr[n] = (pow(10.,param1*2)*T_nu0n/pba->Omega0_idr/pow(pba->h,2)/1.e7)*2.48875e34*2.0*M_PI; // in Mpc^-1
+            pth->b_idr[n] = (pow(10.,param1*2)*T_nu0n/pba->Omega0_idr/pow(pba->h,2)/1.e7)*2.48875e34*2.0*M_PI; // in Mpc^-1
+            pth->G_eff_idr[n] = pow(10,param1);
           }
           else{
-             pth->b_idr[n] = 0.0;
+            pth->b_idr[n] = 0.0;
+            pth->G_eff_idr[n] = 0.0;
           }
        }
        if (input_verbose > 2){
@@ -3668,7 +3672,10 @@ int input_default_params(
 
   ppt->gauge=synchronous;
 
-  ppt->idr_nature=idr_free_streaming;
+  // added loop because idr_nature is now an array of length n_idr -JH
+  for(int n_idr = 0; n_idr < pba->N_idr; n_idr++){
+    ppt->idr_nature[n_idr]=idr_free_streaming;
+  }
 
   ppt->has_Nbody_gauge_transfers = _FALSE_;
 

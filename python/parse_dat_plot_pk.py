@@ -4,16 +4,16 @@ import numpy as np
 # set true to plot ratio of files
 ratio = True
 
-to_output = "../output/"
+#to_output = "../output/"
 
 # add all files to be considered here, may make argv later, if using ratio, 1st will be the norm
-filename = ["mless_LCDM_PT_km100_pk.dat", "mless_LCDM_NONPT_km100_pk.dat"]
-names = ["LCDM, 2 massive nu, SInu_PT", "LCDM, 2 massive nu, SInu_PT, PT disabled"]
+filename = ["/home/john/Downloads/CLASS_SInu-master/output/1c2m_1Geff6_km100_pk.dat", "../output/1c2m_1Geff6_PT_pk.dat"]
+names = ["SInu 1c2m Geff=10^-6", "SInu_PT 1c2m Geff=10^-6"]
 dat = []
 
 # read files
 for i in range(0, len(filename)):
-    with open(to_output + filename[i], 'r') as f:
+    with open(filename[i], 'r') as f:
         dat.append(f.readlines())
 
 # remove file headers
@@ -57,10 +57,11 @@ plt.title("$P_k$ ratio")
 plt.xlabel("k [h/Mpc]")
 plt.ylabel("$P_{k, i}/P_{k, LCDM}$")
 plt.xlim(0.001, 10.0)
+plt.ylim(0.99999,1.00001)
 plt.xscale("log")
-plt.yscale("log")
+#plt.yscale("log")
 for i in range(0, len(k_arr)):
     plt.plot(k_arr[i][index_array[i]:], pk_arr[i][index_array[i]:], label = names[i])
 plt.legend()
-plt.savefig("plots/SInu-PT-PT_vs_nonPT.png")
+plt.savefig("plots/1c2mG6_SInu_v_SInuPT_100thousandths.png")
 plt.show()

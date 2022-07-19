@@ -9,7 +9,7 @@ cs = 1 #(Mpc/h)^2
 h = 0.6732
 
 # add all files to be considered here, may make argv later, if using ratio, 1st will be the norm
-filename = ["../output/mless_LCDM_PT_km100_pk.dat", "../output/mless_LCDM_PT_km100_pk_nl_pt.dat"]
+filename = ["../output/mless_LCDM_PT_km100_pk_nl_pt.dat", "../output/1c2m_1Geff2_km5_pk_nl_pt.dat"]
 names = []
 dat = []
 

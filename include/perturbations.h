@@ -179,7 +179,8 @@ struct perturbs
   double * alpha_idm_dr; /**< Angular contribution to collisional term at l>=2 for idm_fr-idr */
   double * beta_idr;  /**< Angular contribution to collisional term at l>=2 for idr-idr */
 
-  int idr_nature; /**< Nature of the interacting dark radiation (free streaming or fluid) */
+  // turned into array now that we have it switching as opposed to being a parameter, 3 is hard coded to keep from having to redo more here -JH
+  int idr_nature[3]; /**< Nature of the interacting dark radiation (free streaming or fluid) */
 
   //@}
 
