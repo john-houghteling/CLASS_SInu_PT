@@ -9,7 +9,7 @@ ratio = True
 #h = 0.6732
 
 # add all files to be considered here, may make argv later, if using ratio, 1st will be the norm
-filename = ["../output/2m_LCDM_PT_pk_nl_pt.dat", "../output/1c2m_1Geff6_PT_pk_nl_pt.dat"]
+filename = ["../output/2m_LCDM_PT_pk_nl_pt.dat", "../output/2c1m_2Geff0.6_PT_pk_nl_pt.dat"]
 names = []
 dat = []
 
@@ -55,14 +55,14 @@ if ratio:
 plt.title("$P_k$ ratio")
 plt.xlabel("k [h/Mpc]")
 plt.ylabel("$P_{k, i}/P_{k, LCDM}$")
-plt.xlim(0.001, 1.)
+plt.xlim(0.001, 100.)
 #plt.ylim(0.9,2.0)
 plt.xscale("log")
 #plt.yscale("log")
-plt.plot(mless_k_arr, mless_tree_arr, label="LCDM, 1 massless nu 2 massive, SInu_PT")
-plt.plot(sinu_k_arr, sinu_tree_arr, label="SInu 1c2m Geff=10^-6")
+plt.plot(mless_k_arr, mless_tree_arr, label="LCDM, 1 massless 2 massive nu, SInu_PT")
+plt.plot(sinu_k_arr, sinu_tree_arr, label="2c1m Geff=10^-0.6, -2, SInu_PT")
 plt.legend()
-plt.savefig("plots/nonPT_mLCDM_vs_1c2mG6_1.png")
+plt.savefig("plots/nonPT_mLCDM_vs_2c1m2G.6.png")
 plt.show()
 
 

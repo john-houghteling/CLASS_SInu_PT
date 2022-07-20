@@ -3801,12 +3801,12 @@ int perturb_vector_init(
     }
 
     // check whether idr should be free streaming or fluid -JH
-    // having to add this in twice bc the idr_nature isnt chckec until after the following if-block
+    // having to add this in twice bc the idr_nature isnt checked until after the following if-block
     if(pba->has_idr == _TRUE_){
       for(int n_idr = 0; n_idr<pba->N_idr; n_idr++){
         if(ppw->pvecback[pba->index_bg_H] > pow(pth->G_eff_idr[n_idr], 2)*pow(pba->T_idr/pow(ppw->pvecback[pba->index_bg_a],2),5)){
           ppt->idr_nature[n_idr] = idr_free_streaming;
-          //printf("T_idr: %f, idr fs\n", pba->T_idr/ppw->pvecback[pba->index_bg_a]);
+          //printf("Mode k=%d: switch ");
         }
         else if(ppw->pvecback[pba->index_bg_H] <= pow(pth->G_eff_idr[n_idr], 2)*pow(pba->T_idr/pow(ppw->pvecback[pba->index_bg_a],2),5)){
           ppt->idr_nature[n_idr] = idr_fluid;
